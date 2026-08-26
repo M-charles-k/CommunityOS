@@ -445,4 +445,3 @@ export default function Login({ onLogin, onRegister }) {
     </main>
   );
 }
-```
