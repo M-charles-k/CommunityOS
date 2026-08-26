@@ -1,7 +1,9 @@
+
 import React, { useEffect, useState } from "react";
 import {
   ArrowRight,
   Building2,
+  CheckCircle2,
   Droplets,
   Lock,
   Mail,
@@ -39,15 +41,18 @@ const FLOATING_SERVICES = [
   },
 ];
 
+const COMMUNITY_FEATURES = [
+  "Easy service requests",
+  "Real-time community updates",
+  "Trusted local providers",
+];
+
 function getInitialTheme() {
   const savedTheme = localStorage.getItem(
     "communityos-auth-theme"
   );
 
-  if (
-    savedTheme === "dark" ||
-    savedTheme === "light"
-  ) {
+  if (savedTheme === "dark" || savedTheme === "light") {
     return savedTheme;
   }
 
@@ -62,7 +67,6 @@ export default function Login({ onLogin, onRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Keep Green Valley as the default for LOGIN.
   const [tenantId, setTenantId] =
     useState("green-valley");
 
@@ -76,8 +80,7 @@ export default function Login({ onLogin, onRegister }) {
       theme
     );
 
-    document.documentElement.dataset.authTheme =
-      theme;
+    document.documentElement.dataset.authTheme = theme;
   }, [theme]);
 
   function toggleTheme() {
@@ -118,6 +121,7 @@ export default function Login({ onLogin, onRegister }) {
       className={`auth-page auth-theme-${theme}`}
       data-theme={theme}
     >
+      {/* THEME BUTTON */}
       <button
         type="button"
         className="auth-theme-toggle"
@@ -127,24 +131,30 @@ export default function Login({ onLogin, onRegister }) {
       >
         {theme === "light" ? (
           <>
-            <Moon size={18} />
-            <span>Dark</span>
+            <Moon size={17} />
+            <span>Dark mode</span>
           </>
         ) : (
           <>
-            <Sun size={18} />
-            <span>Light</span>
+            <Sun size={17} />
+            <span>Light mode</span>
           </>
         )}
       </button>
 
-      {/* LEFT SHOWCASE */}
+      {/* =====================================================
+          LEFT SHOWCASE
+          ===================================================== */}
       <section className="auth-showcase">
         <div className="auth-showcase-grid" />
 
+        <div className="auth-showcase-glow glow-one" />
+        <div className="auth-showcase-glow glow-two" />
+
+        {/* BRAND */}
         <div className="auth-brand">
           <span className="auth-brand-icon">
-            <Building2 size={22} />
+            <Building2 size={23} />
           </span>
 
           <span>
@@ -152,27 +162,32 @@ export default function Login({ onLogin, onRegister }) {
           </span>
         </div>
 
+        {/* HERO */}
         <div className="auth-showcase-content">
           <div className="auth-showcase-copy">
             <div className="auth-eyebrow">
-              <Sparkles size={16} />
+              <Sparkles size={15} />
               SMART COMMUNITY PLATFORM
             </div>
 
             <h1>
-              Empowering <span>Communities,</span>
+              Empowering{" "}
+              <span>Communities,</span>
               <br />
               together.
             </h1>
 
             <p>
-              The intelligent way to manage, connect, and
-              grow your community.
+              The intelligent way to manage your
+              community, access essential services,
+              and stay connected with the people
+              around you.
             </p>
 
             <div className="auth-copy-line" />
           </div>
 
+          {/* SERVICES */}
           <div
             className="auth-floating-services"
             aria-label="Community services"
@@ -189,8 +204,8 @@ export default function Login({ onLogin, onRegister }) {
                 >
                   <div className="auth-float-icon">
                     <Icon
-                      size={25}
-                      strokeWidth={1.9}
+                      size={24}
+                      strokeWidth={1.8}
                     />
                   </div>
 
@@ -201,10 +216,24 @@ export default function Login({ onLogin, onRegister }) {
           </div>
         </div>
 
+        {/* FEATURES */}
+        <div className="auth-showcase-features">
+          {COMMUNITY_FEATURES.map((feature) => (
+            <div
+              className="auth-showcase-feature"
+              key={feature}
+            >
+              <CheckCircle2 size={16} />
+              <span>{feature}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* TRUST */}
         <div className="auth-trust">
           <p>
-            Great communities are built on trust,
-            communication, and great technology.
+            Built to make community living simpler,
+            safer, and more connected.
           </p>
 
           <div className="auth-trust-bottom">
@@ -222,18 +251,21 @@ export default function Login({ onLogin, onRegister }) {
             </div>
 
             <div>
-              Trusted by <strong>300+</strong>{" "}
+              Trusted by{" "}
+              <strong>300+</strong>{" "}
               communities
             </div>
           </div>
         </div>
       </section>
 
-      {/* RIGHT FORM */}
+      {/* =====================================================
+          RIGHT FORM
+          ===================================================== */}
       <section className="auth-form-panel">
         <div className="auth-panel-brand">
           <span className="auth-panel-brand-icon">
-            <Building2 size={18} />
+            <Building2 size={17} />
           </span>
 
           Community<span>OS</span>
@@ -248,13 +280,16 @@ export default function Login({ onLogin, onRegister }) {
             <h2>Sign in to your community</h2>
 
             <p>
-              Access your services, requests, updates,
-              and community workspace.
+              Access your services, requests,
+              updates, and community workspace.
             </p>
           </div>
 
           {error && (
-            <div className="auth-alert auth-alert-error">
+            <div
+              className="auth-alert auth-alert-error"
+              role="alert"
+            >
               {error}
             </div>
           )}
@@ -337,58 +372,77 @@ export default function Login({ onLogin, onRegister }) {
               </div>
             </label>
 
+            {/* SUBMIT */}
             <button
               type="submit"
               className="auth-submit"
               disabled={loading}
             >
-              {loading
-                ? "Signing in..."
-                : "Sign In"}
+              <span>
+                {loading
+                  ? "Signing in..."
+                  : "Sign In"}
+              </span>
 
-              <ArrowRight size={18} />
+              {!loading && (
+                <ArrowRight size={18} />
+              )}
             </button>
           </form>
 
+          {/* DEMO CARD */}
           <div className="auth-demo-card">
-            <div className="auth-demo-title">
-              <ShieldCheck size={17} />
-              Demo Credentials
+            <div className="auth-demo-header">
+              <div className="auth-demo-title">
+                <ShieldCheck size={17} />
+                Demo Credentials
+              </div>
+
+              <span className="auth-demo-badge">
+                TEST
+              </span>
             </div>
 
-            <p>
-              <strong>Resident:</strong>{" "}
-              resident@example.com
-              <span>/</span>
-              resident123
-            </p>
+            <div className="auth-demo-row">
+              <strong>Resident</strong>
+              <span>resident@example.com</span>
+              <code>resident123</code>
+            </div>
 
-            <p>
-              <strong>Provider:</strong>{" "}
-              aquaflow@provider.com
-              <span>/</span>
-              provider123
-            </p>
+            <div className="auth-demo-row">
+              <strong>Provider</strong>
+              <span>aquaflow@provider.com</span>
+              <code>provider123</code>
+            </div>
 
-            <p>
-              <strong>Manager:</strong>{" "}
-              manager@greenvally.com
-              <span>/</span>
-              manager123
-            </p>
+            <div className="auth-demo-row">
+              <strong>Manager</strong>
+              <span>manager@greenvally.com</span>
+              <code>manager123</code>
+            </div>
           </div>
 
+          {/* REGISTER */}
           <div className="auth-switch-copy">
-            New to CommunityOS?{" "}
+            <span>New to CommunityOS?</span>
+
             <button
               type="button"
               onClick={onRegister}
             >
               Create an account
+              <ArrowRight size={14} />
             </button>
           </div>
+        </div>
+
+        <div className="auth-footer">
+          <span>CommunityOS</span>
+          <span>•</span>
+          <span>Community management made simple</span>
         </div>
       </section>
     </main>
   );
 }
+```
