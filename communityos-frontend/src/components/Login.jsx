@@ -262,7 +262,7 @@ export default function Login({ onLogin, onRegister }) {
           <form
             onSubmit={handleLogin}
             className="auth-modern-form"
-            autoComplete="on"
+            autoComplete="off"
           >
             {/* COMMUNITY */}
             <label className="auth-field">
@@ -304,7 +304,7 @@ export default function Login({ onLogin, onRegister }) {
                   type="email"
                   name="email"
                   id="login-email"
-                  autoComplete="email"
+                  autoComplete="off"
                   placeholder="your@email.com"
                   value={email}
                   onChange={(event) =>
