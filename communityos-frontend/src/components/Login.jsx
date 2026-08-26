@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   ArrowRight,
   Building2,
@@ -11,59 +11,85 @@ import {
   Sun,
   Trash2,
   Wrench,
-} from 'lucide-react';
-import * as authService from '../services/auth.js';
-import '../styles/auth.css';
+} from "lucide-react";
+import * as authService from "../services/auth.js";
+import "../styles/auth.css";
 
 const TENANTS = [
-  { id: 'green-valley', name: 'Green Valley Estate' },
-  { id: 'sunrise', name: 'Sunrise Apartments' },
-  { id: 'westlands', name: 'Westlands Residence' },
+  { id: "green-valley", name: "Green Valley Estate" },
+  { id: "sunrise", name: "Sunrise Apartments" },
+  { id: "westlands", name: "Westlands Residence" },
 ];
 
 const FLOATING_SERVICES = [
-  { icon: Droplets, label: 'Water Delivery', className: 'water' },
-  { icon: Trash2, label: 'Waste Collection', className: 'waste' },
-  { icon: Wrench, label: 'Maintenance', className: 'maintenance' },
+  {
+    icon: Droplets,
+    label: "Water Delivery",
+    className: "water",
+  },
+  {
+    icon: Trash2,
+    label: "Waste Collection",
+    className: "waste",
+  },
+  {
+    icon: Wrench,
+    label: "Maintenance",
+    className: "maintenance",
+  },
 ];
 
 function getInitialTheme() {
-  const savedTheme = localStorage.getItem('communityos-auth-theme');
+  const savedTheme = localStorage.getItem(
+    "communityos-auth-theme"
+  );
 
-  if (savedTheme === 'dark' || savedTheme === 'light') {
+  if (
+    savedTheme === "dark" ||
+    savedTheme === "light"
+  ) {
     return savedTheme;
   }
 
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
+  return window.matchMedia?.(
+    "(prefers-color-scheme: dark)"
+  ).matches
+    ? "dark"
+    : "light";
 }
 
 export default function Login({ onLogin, onRegister }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [tenantId, setTenantId] = useState('green-valley');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Keep Green Valley as the default for LOGIN.
+  const [tenantId, setTenantId] =
+    useState("green-valley");
+
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [theme, setTheme] = useState(getInitialTheme);
 
   useEffect(() => {
-    localStorage.setItem('communityos-auth-theme', theme);
+    localStorage.setItem(
+      "communityos-auth-theme",
+      theme
+    );
 
-    // Make the theme explicit on the page itself.
-    document.documentElement.dataset.authTheme = theme;
+    document.documentElement.dataset.authTheme =
+      theme;
   }, [theme]);
 
   function toggleTheme() {
     setTheme((current) =>
-      current === 'light' ? 'dark' : 'light'
+      current === "light" ? "dark" : "light"
     );
   }
 
   async function handleLogin(event) {
     event.preventDefault();
 
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
@@ -77,14 +103,15 @@ export default function Login({ onLogin, onRegister }) {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        'Login failed. Please check your details and try again.'
+          "Login failed. Please check your details and try again."
       );
     } finally {
       setLoading(false);
     }
   }
 
-  const nextTheme = theme === 'light' ? 'dark' : 'light';
+  const nextTheme =
+    theme === "light" ? "dark" : "light";
 
   return (
     <main
@@ -98,7 +125,7 @@ export default function Login({ onLogin, onRegister }) {
         aria-label={`Switch to ${nextTheme} mode`}
         title={`Switch to ${nextTheme} mode`}
       >
-        {theme === 'light' ? (
+        {theme === "light" ? (
           <>
             <Moon size={18} />
             <span>Dark</span>
@@ -139,25 +166,32 @@ export default function Login({ onLogin, onRegister }) {
             </h1>
 
             <p>
-              The intelligent way to manage, connect, and grow your community.
+              The intelligent way to manage, connect, and
+              grow your community.
             </p>
 
             <div className="auth-copy-line" />
           </div>
 
-          {/* Floating objects stay BELOW the hero copy */}
           <div
             className="auth-floating-services"
             aria-label="Community services"
           >
             {FLOATING_SERVICES.map(
-              ({ icon: Icon, label, className }) => (
+              ({
+                icon: Icon,
+                label,
+                className,
+              }) => (
                 <div
                   className={`auth-float ${className}`}
                   key={label}
                 >
                   <div className="auth-float-icon">
-                    <Icon size={25} strokeWidth={1.9} />
+                    <Icon
+                      size={25}
+                      strokeWidth={1.9}
+                    />
                   </div>
 
                   <span>{label}</span>
@@ -169,8 +203,8 @@ export default function Login({ onLogin, onRegister }) {
 
         <div className="auth-trust">
           <p>
-            Great communities are built on trust, communication, and great
-            technology.
+            Great communities are built on trust,
+            communication, and great technology.
           </p>
 
           <div className="auth-trust-bottom">
@@ -178,13 +212,18 @@ export default function Login({ onLogin, onRegister }) {
               className="auth-avatars"
               aria-label="Community members"
             >
-              {['A', 'J', 'M', 'K'].map((letter) => (
-                <span key={letter}>{letter}</span>
-              ))}
+              {["A", "J", "M", "K"].map(
+                (letter) => (
+                  <span key={letter}>
+                    {letter}
+                  </span>
+                )
+              )}
             </div>
 
             <div>
-              Trusted by <strong>300+</strong> communities
+              Trusted by <strong>300+</strong>{" "}
+              communities
             </div>
           </div>
         </div>
@@ -209,7 +248,8 @@ export default function Login({ onLogin, onRegister }) {
             <h2>Sign in to your community</h2>
 
             <p>
-              Access your services, requests, updates, and community workspace.
+              Access your services, requests, updates,
+              and community workspace.
             </p>
           </div>
 
@@ -222,7 +262,9 @@ export default function Login({ onLogin, onRegister }) {
           <form
             onSubmit={handleLogin}
             className="auth-modern-form"
+            autoComplete="on"
           >
+            {/* COMMUNITY */}
             <label className="auth-field">
               <span>Community</span>
 
@@ -230,6 +272,9 @@ export default function Login({ onLogin, onRegister }) {
                 <Building2 size={18} />
 
                 <select
+                  name="community"
+                  id="login-community"
+                  autoComplete="off"
                   value={tenantId}
                   onChange={(event) =>
                     setTenantId(event.target.value)
@@ -248,6 +293,7 @@ export default function Login({ onLogin, onRegister }) {
               </div>
             </label>
 
+            {/* EMAIL */}
             <label className="auth-field">
               <span>Email address</span>
 
@@ -256,6 +302,9 @@ export default function Login({ onLogin, onRegister }) {
 
                 <input
                   type="email"
+                  name="email"
+                  id="login-email"
+                  autoComplete="email"
                   placeholder="your@email.com"
                   value={email}
                   onChange={(event) =>
@@ -266,6 +315,7 @@ export default function Login({ onLogin, onRegister }) {
               </div>
             </label>
 
+            {/* PASSWORD */}
             <label className="auth-field">
               <span>Password</span>
 
@@ -274,6 +324,9 @@ export default function Login({ onLogin, onRegister }) {
 
                 <input
                   type="password"
+                  name="password"
+                  id="login-password"
+                  autoComplete="current-password"
                   placeholder="Enter your password"
                   value={password}
                   onChange={(event) =>
@@ -289,7 +342,10 @@ export default function Login({ onLogin, onRegister }) {
               className="auth-submit"
               disabled={loading}
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading
+                ? "Signing in..."
+                : "Sign In"}
+
               <ArrowRight size={18} />
             </button>
           </form>
@@ -301,26 +357,29 @@ export default function Login({ onLogin, onRegister }) {
             </div>
 
             <p>
-              <strong>Resident:</strong> resident@example.com
+              <strong>Resident:</strong>{" "}
+              resident@example.com
               <span>/</span>
               resident123
             </p>
 
             <p>
-              <strong>Provider:</strong> aquaflow@provider.com
+              <strong>Provider:</strong>{" "}
+              aquaflow@provider.com
               <span>/</span>
               provider123
             </p>
 
             <p>
-              <strong>Manager:</strong> manager@greenvally.com
+              <strong>Manager:</strong>{" "}
+              manager@greenvally.com
               <span>/</span>
               manager123
             </p>
           </div>
 
           <div className="auth-switch-copy">
-            New to CommunityOS?{' '}
+            New to CommunityOS?{" "}
             <button
               type="button"
               onClick={onRegister}

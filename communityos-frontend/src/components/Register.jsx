@@ -21,7 +21,9 @@ export default function Register({ onRegistered, onBackToLogin }) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [tenantId, setTenantId] = useState("green-valley");
+
+  // Start with NO community selected.
+  const [tenantId, setTenantId] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -43,8 +45,15 @@ export default function Register({ onRegistered, onBackToLogin }) {
 
       onRegistered();
     } catch (err) {
+      console.error(
+        "Registration error:",
+        err.response?.data || err
+      );
+
       setError(
-        err.response?.data?.message ||
+        err.response?.data?.error?.message ||
+          err.response?.data?.message ||
+          err.message ||
           "Registration failed. Please try again."
       );
     } finally {
@@ -163,7 +172,9 @@ export default function Register({ onRegistered, onBackToLogin }) {
           </button>
 
           <div className="auth-form-heading">
-            <span className="auth-kicker">GET STARTED</span>
+            <span className="auth-kicker">
+              GET STARTED
+            </span>
 
             <h2>Create your account</h2>
 
@@ -182,15 +193,22 @@ export default function Register({ onRegistered, onBackToLogin }) {
           <form
             className="modern-auth-form"
             onSubmit={handleRegister}
+            autoComplete="on"
           >
+            {/* FULL NAME */}
             <div className="auth-field">
-              <label>Full Name</label>
+              <label htmlFor="register-full-name">
+                Full Name
+              </label>
 
               <div className="auth-input">
                 <User size={19} />
 
                 <input
                   type="text"
+                  name="fullName"
+                  id="register-full-name"
+                  autoComplete="name"
                   placeholder="Enter your full name"
                   value={fullName}
                   onChange={(e) =>
@@ -201,14 +219,20 @@ export default function Register({ onRegistered, onBackToLogin }) {
               </div>
             </div>
 
+            {/* EMAIL */}
             <div className="auth-field">
-              <label>Email Address</label>
+              <label htmlFor="register-email">
+                Email Address
+              </label>
 
               <div className="auth-input">
                 <Mail size={19} />
 
                 <input
                   type="email"
+                  name="email"
+                  id="register-email"
+                  autoComplete="email"
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) =>
@@ -219,14 +243,21 @@ export default function Register({ onRegistered, onBackToLogin }) {
               </div>
             </div>
 
+            {/* PHONE */}
             <div className="auth-field">
-              <label>Phone Number</label>
+              <label htmlFor="register-phone">
+                Phone Number
+              </label>
 
               <div className="auth-input">
                 <Phone size={19} />
 
                 <input
                   type="tel"
+                  name="phone"
+                  id="register-phone"
+                  autoComplete="tel"
+                  inputMode="tel"
                   placeholder="+254 700 000 000"
                   value={phone}
                   onChange={(e) =>
@@ -236,19 +267,29 @@ export default function Register({ onRegistered, onBackToLogin }) {
               </div>
             </div>
 
+            {/* COMMUNITY */}
             <div className="auth-field">
-              <label>Community</label>
+              <label htmlFor="register-community">
+                Community
+              </label>
 
               <div className="auth-input">
                 <Building2 size={19} />
 
                 <select
+                  name="community"
+                  id="register-community"
+                  autoComplete="off"
                   value={tenantId}
                   onChange={(e) =>
                     setTenantId(e.target.value)
                   }
                   required
                 >
+                  <option value="" disabled>
+                    Select your community
+                  </option>
+
                   {TENANTS.map((tenant) => (
                     <option
                       key={tenant.id}
@@ -261,14 +302,20 @@ export default function Register({ onRegistered, onBackToLogin }) {
               </div>
             </div>
 
+            {/* PASSWORD */}
             <div className="auth-field">
-              <label>Password</label>
+              <label htmlFor="register-password">
+                Password
+              </label>
 
               <div className="auth-input">
                 <Lock size={19} />
 
                 <input
                   type="password"
+                  name="password"
+                  id="register-password"
+                  autoComplete="new-password"
                   placeholder="Create a secure password"
                   value={password}
                   onChange={(e) =>
